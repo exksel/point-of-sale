@@ -11,6 +11,9 @@
 <!-- Bootstrap JS & DataTables -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
 <style>
     body {
@@ -60,7 +63,7 @@
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->description }}</td>
-                            <td>Rp {{ number_format($product->price, 2, ',', '.') }}</td>
+                            <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
                             <td>
                                 <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
                                 <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $product->id }})"><i class="bi bi-trash"></i></button>

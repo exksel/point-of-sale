@@ -4,7 +4,7 @@
         <div class="sb-sidenav-menu">
             <div class="nav">
                 <div class="sb-sidenav-menu-heading">Management</div>
-                <a class="nav-link" href="#">
+                <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Dashboard
                 </a>
@@ -21,15 +21,11 @@
                     <div class="sb-nav-link-icon"><i class="bi bi-clock-history"></i></div>
                     History
                 </a>
-                <a class="nav-link" href="#">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                    Tables
-                </a>
             </div>
         </div>
         <div class="sb-sidenav-footer">
-            <div class="small">Logged in as:</div>
-            Start Bootstrap
-        </div>
+            <div class="small">Logged in as :</div>
+            <strong>{{ Auth::user()->username ?? 'Guest' }}</strong>
+        </div>        
     </nav>
 </div>

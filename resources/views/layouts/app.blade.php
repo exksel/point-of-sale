@@ -7,37 +7,37 @@
     overflow: hidden; /* Mencegah seluruh halaman bergulir */
     display: flex;
     flex-direction: column;
-}
+    }
 
-#layoutSidenav {
-    display: flex;
-    height: 100vh;
-    overflow: hidden; /* Mencegah scroll di luar content */
-}
+    #layoutSidenav {
+        display: flex;
+        height: 100vh;
+        overflow: hidden; /* Mencegah scroll di luar content */
+    }
 
-#layoutSidenav_content {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    overflow: hidden;
-}
+    #layoutSidenav_content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: hidden;
+    }
 
-main {
-    flex-grow: 1;
-    overflow: auto; /* Hanya bagian ini yang bisa di-scroll */
-    padding: 20px;
-    background: #f8f9fa;
-    padding-bottom: 60px;
-}
+    main {
+        flex-grow: 1;
+        overflow: auto; /* Hanya bagian ini yang bisa di-scroll */
+        padding: 20px;
+        background: #f8f9fa;
+        padding-bottom: 60px;
+    }
 
-/* Pastikan footer selalu di bawah */
-footer {
-    padding: 10px 0;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
+    /* Pastikan footer selalu di bawah */
+    footer {
+        padding: 10px 0;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
 
 </style>
 <head>

@@ -37,7 +37,7 @@
     <div class="card shadow">
         <div class="card-header py-3">
             <div class="header-container">
-                <h6 class="m-0 font-weight-bold text-primary">Riwayat Transaksi</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Transaction List</h6>
             </div>
         </div>
         <div class="card-body">
@@ -45,22 +45,22 @@
                 <table class="table table-bordered" id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th>Kode Transaksi</th>
-                            <th>Total Harga</th>
-                            <th>Bayar</th>
-                            <th>Kembalian</th>
-                            <th>Waktu</th>
-                            <th>Aksi</th>
+                            <th>Transaction Code</th>
+                            <th>Price Total</th>
+                            <th>Paid</th>
+                            <th>Change</th>
+                            <th>Date&Time</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($transactions as $transaction)
                         <tr>
                             <td>{{ $transaction->transaction_code }}</td>
-                            <td>Rp{{ number_format($transaction->total, 0, ',', '.') }}</td>
-                            <td>Rp{{ number_format($transaction->paid, 0, ',', '.') }}</td>
-                            <td>Rp{{ number_format($transaction->change, 0, ',', '.') }}</td>
-                            <td>{{ $transaction->transaction_date }}</td>
+                            <td>Rp {{ number_format($transaction->total, 0, ',', '.') }}</td>
+                            <td>Rp {{ number_format($transaction->paid, 0, ',', '.') }}</td>
+                            <td>Rp {{ number_format($transaction->change, 0, ',', '.') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($transaction->transaction_date)->format('d-m-Y H:i') }}</td>
                             <td>
                                 <a href="{{ route('transaction.show', $transaction->transaction_code) }}" class="btn btn-primary btn-sm">
                                     <i class="bi bi-eye"></i>

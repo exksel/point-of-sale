@@ -16,6 +16,14 @@ class ProductController extends Controller
         return view('products.index', compact('products'))->with('i', 0);
     }
 
+    // menampilkan menu di landing
+    public function menu()
+    {
+        $products = Product::orderBy('id', 'asc')->take(12)->get(); // Ambil 12 produk
+        return view('landing.menu', compact('products')); // Tampilkan di menu.blade.php
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */

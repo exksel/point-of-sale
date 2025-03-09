@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,16 +19,43 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [PageController::class, 'home'])->name('landing.home');
+Route::get('/menu', [ProductController::class, 'menu'])->name('landing.menu');
+
+Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/menu', [ProductController::class, 'menu'])->name('menu');
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
+
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Route::resource('products', ProductController::class);
+
+// Route::get('/transactions/cashier', [TransactionController::class, 'cashier'])->name('transactions.cashier');
+// Route::post('/transactions/store', [TransactionController::class, 'store'])->name('transactions.store');
+// Route::get('/transactions/history', [TransactionController::class, 'history'])->name('transactions.history');
+// Route::get('/transaction/{transaction_code}', [TransactionController::class, 'show'])->name('transaction.show');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('products', ProductController::class);
+    Route::get('/transactions/cashier', [TransactionController::class, 'cashier'])->name('transactions.cashier');
+    Route::post('/transactions/store', [TransactionController::class, 'store'])->name('transactions.store');
+    Route::get('/transactions/history', [TransactionController::class, 'history'])->name('transactions.history');
+    Route::get('/transaction/{transaction_code}', [TransactionController::class, 'show'])->name('transaction.show');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('user.profile'); // Sesuaikan dengan nama route yang error
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
-
-Route::resource('products', ProductController::class);
-
-Route::get('/transactions/cashier', [TransactionController::class, 'cashier'])->name('transactions.cashier');
-Route::post('/transactions/store', [TransactionController::class, 'store'])->name('transactions.store');
-Route::get('/transactions/history', [TransactionController::class, 'history'])->name('transactions.history');
-Route::get('/transaction/{transaction_code}', [TransactionController::class, 'show'])->name('transaction.show');
 
 
 

@@ -15,15 +15,20 @@ class TransactionController extends Controller
         $products = Product::all(); // Ambil semua produk dari database
         return view('transactions.cashier', compact('products'));
     }
+
     public function store(Request $request)
     {
         DB::beginTransaction(); // Mulai transaksi database
 
         try {
-            // Buat kode transaksi unik (TR001, TR002, dst)
+            // Ambil transaksi terbaru
             $latestTransaction = Transaction::latest()->first();
-            $nextTransactionNumber = $latestTransaction ? intval(substr($latestTransaction->transaction_code, 2)) + 1 : 1;
-            $transactionCode = 'TR' . str_pad($nextTransactionNumber, 3, '0', STR_PAD_LEFT);
+
+            // Ambil angka dari kode terakhir, jika ada
+            $nextTransactionNumber = $latestTransaction ? intval(substr($latestTransaction->transaction_code, 3)) + 1 : 1;
+
+            // Format kode transaksi baru (TRX1, TRX2, TRX3, ...)
+            $transactionCode = 'TRX' . $nextTransactionNumber;
 
             // Hitung total harga dari produk yang dipilih
             $total = 0;
