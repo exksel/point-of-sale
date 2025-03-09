@@ -20,11 +20,6 @@
     .btn-sm {
         margin-top: 10px;
     }
-    #username {
-        user-select: none; /* Mencegah pemilihan teks */
-        pointer-events: none; /* Mencegah interaksi */
-        background-color: #e9ecef; /* Warna seperti input disabled */
-    }
 </style>
 
 <div class="container mt-4">
@@ -73,9 +68,7 @@
 
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" 
-                           value="{{ old('username', $user->username) }}" 
-                           readonly onfocus="this.blur()">
+                    <input type="text" class="form-control" id="username" name="username" value="{{ old('username', $user->username) }}" required>
                 </div>            
 
                 <div class="mb-3">
@@ -94,13 +87,20 @@
         let form = document.getElementById("updateProfileForm");
         let fullName = document.getElementById("full_name").value;
         let phoneNumber = document.getElementById("phone_number").value;
+        let username = document.getElementById("username").value;
         let password = document.getElementById("password").value;
 
         let originalFullName = "{{ $user->full_name }}";
         let originalPhoneNumber = "{{ $user->phone_number }}";
+        let originalUsername = "{{ $user->username }}";
 
         // Cek jika tidak ada perubahan data
-        if (fullName === originalFullName && phoneNumber === originalPhoneNumber && password === "") {
+        if (
+            fullName === originalFullName &&
+            phoneNumber === originalPhoneNumber &&
+            username === originalUsername &&  // Tambahkan pengecekan username
+            password === ""
+            ) {
             Swal.fire({
                 title: "Gagal!",
                 text: "Tidak ada perubahan yang dilakukan.",

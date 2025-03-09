@@ -152,7 +152,7 @@
         <button type="submit">Log In</button>
         <button class="back-home" onclick="window.location.href='{{ route('home') }}'">Back to Home</button>
         <div class="register">
-          <p>Don't have an account? <a href="{{ route('register') }}">Register</a></p>
+          {{-- <p>Don't have an account? <a href="{{ route('register') }}">Register</a></p> --}}
         </div>
       </form>
     </div>

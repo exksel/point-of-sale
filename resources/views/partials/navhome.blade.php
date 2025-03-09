@@ -1,6 +1,8 @@
+
 <style>
     .navbar {
     background-color: #000;
+    font-family: 'Roboto', sans-serif;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
@@ -37,15 +39,22 @@
         margin: 0 10px;
         cursor: pointer;
     }
-    .navbar .order-btn {
-        background-color: #ffc107;
-        color: #000;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-    }
+    .navbar .btn {
+          background: linear-gradient(45deg, #FFA500, #FF4500);
+          color: white;
+          padding: 7px 15px;
+          text-decoration: none;
+          font-size: 13px;
+          border-radius: 30px;
+          font-weight: bold;
+          transition: all 0.3s ease-in-out;
+          display: inline-block;
+          box-shadow: 0 4px 10px rgba(255, 69, 0, 0.5);
+      }
+      .navbar .btn:hover {
+          transform: scale(1.1);
+          background: linear-gradient(45deg, #FF4500, #FFA500);
+      }
 </style>
 <div class="navbar">
     <div class="logo">Es Teh</div>
@@ -56,7 +65,7 @@
     </ul>
     <div class="icons">
         <a href="{{ route('login') }}">
-            <button class="order-btn">Login</button>
+            <button class="btn btn-login">Login</button>
         </a>
     </div>    
 </div>

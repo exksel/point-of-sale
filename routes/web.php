@@ -6,6 +6,8 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ProfileController;
+use App\Exports\TransactionsExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,11 +33,11 @@ Route::get('/login', function () {
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
+// Route::get('/register', function () {
+//     return view('auth.register');
+// })->name('register');
 
-Route::post('/register', [AuthController::class, 'register']);
+// Route::post('/register', [AuthController::class, 'register']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -53,7 +55,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/transactions/store', [TransactionController::class, 'store'])->name('transactions.store');
     Route::get('/transactions/history', [TransactionController::class, 'history'])->name('transactions.history');
     Route::get('/transaction/{transaction_code}', [TransactionController::class, 'show'])->name('transaction.show');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('user.profile'); // Sesuaikan dengan nama route yang error
+    Route::get('/transactions/export-excel', function () {
+        return Excel::download(new TransactionsExport, 'transactions.xlsx');
+    });
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('user.profile');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 

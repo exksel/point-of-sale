@@ -38,6 +38,9 @@
         <div class="card-header py-3">
             <div class="header-container">
                 <h6 class="m-0 font-weight-bold text-primary">Transaction List</h6>
+                <a href="{{ url('/transactions/export-excel') }}" class="btn btn-success btn-sm">
+                    <i class="bi bi-file-earmark-excel"></i> Export Excel
+                </a>                
             </div>
         </div>
         <div class="card-body">

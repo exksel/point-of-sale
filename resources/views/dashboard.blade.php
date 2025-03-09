@@ -91,19 +91,13 @@
     
 
     <div class="dashboard-container">
-        <div class="card card-custom p-3">
-            <div class="card-body">
-                <i class="bi bi-people card-icon"></i>
-                <h5 class="card-title">Admin</h5>
-                <strong>{{ $totalUser }}</strong>
-            </div>
-        </div>
 
         <div class="card card-custom p-3">
             <div class="card-body">
                 <i class="bi bi-box card-icon"></i>
                 <h5 class="card-title">Products</h5>
                 <strong>{{ $jumlahProduk }}</strong>
+                <p class="text-muted mt-2">Total</p>
             </div>
         </div>
 
@@ -112,16 +106,28 @@
                 <i class="bi bi-cart-check card-icon"></i>
                 <h5 class="card-title">Transaction</h5>
                 <strong>{{ $jumlahTransaksi }}</strong>
+                <p class="text-muted mt-2">Total</p>
             </div>
         </div>
 
         <div class="card card-custom p-3">
             <div class="card-body">
-                <i class="bi bi-cash-stack card-icon"></i>
+                <i class="bi bi-coin card-icon"></i>
                 <h5 class="card-title">Income</h5>
-                <strong>Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</strong>
+                <strong>Rp {{ number_format($totalPemasukanPerHari, 0, ',', '.') }}</strong>
+                <p class="text-muted mt-2">Today</p>
+            </div>
+        </div>        
+        
+        <div class="card card-custom p-3">
+            <div class="card-body">
+                <i class="bi bi-cash-coin card-icon"></i>
+                <h5 class="card-title">Income</h5>
+                <strong>Rp {{ number_format($totalPemasukanPerBulan, 0, ',', '.') }}</strong>
+                <p class="text-muted mt-2">This Month</p>
             </div>
         </div>
+        
     </div>
 
     <!-- Produk yang Sering Dibeli -->

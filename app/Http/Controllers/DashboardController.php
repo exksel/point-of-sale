@@ -13,9 +13,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Total pengguna
-        $totalUser = User::count();
-
         // Total produk
         $jumlahProduk = Product::count();
 
@@ -25,9 +22,13 @@ class DashboardController extends Controller
             ->count();
 
         // Total pemasukan bulan ini
-        $totalPemasukan = Transaction::whereMonth('transaction_date', Carbon::now()->month)
+        $totalPemasukanPerBulan = Transaction::whereMonth('transaction_date', Carbon::now()->month)
             ->whereYear('transaction_date', Carbon::now()->year)
             ->sum('total');
+
+        // Pendapatan per hari
+        $totalPemasukanPerHari = Transaction::whereDate('transaction_date', Carbon::today())
+        ->sum('total');
 
         // Produk yang sering dibeli (Top 5)
         $produkSeringDibeli = TransactionDetail::selectRaw('product_id, SUM(quantity) as total_qty')
@@ -53,8 +54,8 @@ class DashboardController extends Controller
         }
 
         return view('dashboard', compact(
-            'totalUser', 'jumlahProduk', 'jumlahTransaksi',
-            'totalPemasukan', 'produkSeringDibeli', 'dataPendapatan'
+            'jumlahProduk', 'jumlahTransaksi', 'totalPemasukanPerHari',
+            'totalPemasukanPerBulan', 'produkSeringDibeli', 'dataPendapatan'
         ));
     }
 }

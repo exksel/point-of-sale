@@ -37,7 +37,7 @@
         border: none;
     }
     .product-list {
-        max-height: 450px; /* Sesuaikan tinggi berdasarkan desain */
+        max-height: 425px; /* Sesuaikan tinggi berdasarkan desain */
         overflow-y: auto;  /* Aktifkan scroll jika lebih dari 10 produk */
     }
 
@@ -240,25 +240,25 @@
             let nominalBayar = parseFloat(document.getElementById("paidAmount").value.replace(/[^\d]/g, '')) || 0;
     
             if (totalHarga === 0) {
-                Swal.fire({ icon: "error", title: "Gagal!", text: "Tidak ada produk yang dibeli." });
+                Swal.fire({ icon: "error", title: "Failed!", text: "Tidak ada produk yang dibeli." });
                 return;
             }
             if (nominalBayar === 0) {
-                Swal.fire({ icon: "error", title: "Gagal!", text: "Masukkan nominal bayar." });
+                Swal.fire({ icon: "error", title: "Failed!", text: "Masukkan nominal bayar." });
                 return;
             }
             if (nominalBayar < totalHarga) {
-                Swal.fire({ icon: "error", title: "Gagal!", text: "Nominal bayar kurang dari total harga." });
+                Swal.fire({ icon: "error", title: "Failed!", text: "Nominal bayar kurang dari total harga." });
                 return;
             }
     
             Swal.fire({
-                title: "Konfirmasi Transaksi",
+                title: "Konfirmasi Pembayaran",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Ya, lakukan transaksi!",
+                confirmButtonText: "Ya, lakukan pembayaran!",
                 cancelButtonText: "Batal"
             }).then((result) => {
                 if (result.isConfirmed) {

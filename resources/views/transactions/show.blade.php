@@ -46,15 +46,39 @@
     }
     .receipt-footer p {
         margin: 3px 0;
-    }/* Supaya Tombol Tidak Tercetak */
+    }
+    .btn-secondary {
+        padding: 7px;
+        margin-top: 15px;
+        margin-left: 20px;
+    }
+    .btn-primary {
+        padding: 7px;
+        margin-top: 15px;
+    }
+
+    /* Supaya Tombol Tidak Tercetak */
     @media print {
+        body * {
+            visibility: hidden;
+        }
+        #receipt, #receipt * {
+            visibility: visible;
+        }
+        #receipt {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
         .no-print {
             display: none;
         }
     }
 </style>
+
 <div class="container d-flex justify-content-center">
-    <div class="receipt">
+    <div id="receipt" class="receipt">
         <div class="receipt-header">
             <p>===================================</p>
             <p><strong>Es Teh Poci</strong></p>
@@ -73,7 +97,7 @@
             </div>
             <div>
                 <span>Date&Time</span>
-                <td>: {{ \Carbon\Carbon::parse($transaction->transaction_date)->format('d-m-Y H:i') }}</td>
+                <span>: {{ \Carbon\Carbon::parse($transaction->transaction_date)->format('d-m-Y H:i') }}</span>
             </div>
         </div>
         <hr>
@@ -114,10 +138,17 @@
             <p>-----------------------------------</p>
         </div>
     </div>
+
     <!-- Tombol Back dan Print -->
-    <div class="mt-3 no-print">
-        <a href="{{ route('transactions.history') }}" class="btn btn-secondary">Kembali</a>
-        <button class="btn btn-primary" onclick="window.print()">Print</button>
+    <div class="text-center no-print mt-3">
+        <a href="{{ route('transactions.history') }}" class="btn btn-secondary me-2">Kembali</a>
+        <button class="btn btn-primary" onclick="window.print()"><i class="bi bi-printer"></i> Print</button>
     </div>
 </div>
+
+<script>
+    function printReceipt() {
+        window.print();
+    }
+</script>
 @endsection
