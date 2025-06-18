@@ -62,19 +62,29 @@
         gap: 20px;
     }
 
-    .chart-container {
-        margin-top: 30px;
-        padding: 15px;
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        height: 50%;
+    #topProductsList {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+    font-size: 14px;
     }
 
-    .chart-container canvas {
-        height: 50%;
-
+    #topProductsList li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
     }
+
+    .legend-color {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 8px;
+    }
+
 
 </style>
 
@@ -90,74 +100,66 @@
     </div>
     
 
-    <div class="dashboard-container">
-
-        <div class="card card-custom p-3">
-            <div class="card-body">
-                <i class="bi bi-box card-icon"></i>
-                <h5 class="card-title">Products</h5>
-                <strong>{{ $jumlahProduk }}</strong>
-                <p class="text-muted mt-2">Total</p>
-            </div>
-        </div>
-
-        <div class="card card-custom p-3">
-            <div class="card-body">
-                <i class="bi bi-cart-check card-icon"></i>
-                <h5 class="card-title">Transaction</h5>
-                <strong>{{ $jumlahTransaksi }}</strong>
-                <p class="text-muted mt-2">Total</p>
-            </div>
-        </div>
-
-        <div class="card card-custom p-3">
-            <div class="card-body">
-                <i class="bi bi-coin card-icon"></i>
-                <h5 class="card-title">Income</h5>
-                <strong>Rp {{ number_format($totalPemasukanPerHari, 0, ',', '.') }}</strong>
-                <p class="text-muted mt-2">Today</p>
-            </div>
-        </div>        
-        
-        <div class="card card-custom p-3">
-            <div class="card-body">
-                <i class="bi bi-cash-coin card-icon"></i>
-                <h5 class="card-title">Income</h5>
-                <strong>Rp {{ number_format($totalPemasukanPerBulan, 0, ',', '.') }}</strong>
-                <p class="text-muted mt-2">This Month</p>
-            </div>
-        </div>
-        
-    </div>
-
-    <!-- Produk yang Sering Dibeli -->
-    <div class="chart-container mt-4">
-        <h5 class="text-primary">Top 5 Best Selling Product</h5>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Total Selling</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($produkSeringDibeli as $produk)
-                <tr>
-                    <td>{{ $produk->product->name }}</td>
-                    <td>{{ $produk->total_qty }}</td>
-                </tr>
+    <!-- TOP SECTION: Summary Cards + Pie Chart -->
+    <div class="row g-3 d-flex align-items-stretch">
+        <!-- Summary Cards -->
+        <div class="col-md-9">
+            <div class="row g-3 h-100">
+                @foreach ([
+                    ['icon' => 'bi-box', 'title' => 'Products', 'value' => $jumlahProduk, 'subtitle' => 'Total'],
+                    ['icon' => 'bi-cart-check', 'title' => 'Transaction', 'value' => $jumlahTransaksi, 'subtitle' => 'Total'],
+                    ['icon' => 'bi-coin', 'title' => 'Income', 'value' => 'Rp ' . number_format($totalPemasukanPerHari, 0, ',', '.'), 'subtitle' => 'Today'],
+                    ['icon' => 'bi-cash-coin', 'title' => 'Income', 'value' => 'Rp ' . number_format($totalPemasukanPerBulan, 0, ',', '.'), 'subtitle' => 'This Month'],
+                    ['icon' => 'bi-cart-dash', 'title' => 'Expense', 'value' => 'Rp ' . number_format($totalPengeluaranPerBulan, 0, ',', '.'), 'subtitle' => 'This Month'],
+                    ['icon' => 'bi-currency-exchange', 'title' => 'Profit', 'value' => 'Rp ' . number_format($totalProfitPerBulan, 0, ',', '.'), 'subtitle' => 'This Month'],
+                ] as $item)
+                    <div class="col-md-4">
+                        <div class="card card-custom p-3 h-100">
+                            <div class="card-body">
+                                <i class="bi {{ $item['icon'] }} card-icon"></i>
+                                <h5 class="card-title">{{ $item['title'] }}</h5>
+                                <strong>{{ $item['value'] }}</strong>
+                                <p class="text-muted mt-2">{{ $item['subtitle'] }}</p>
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
-            </tbody>
-        </table>
+            </div>
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="col-md-3">
+            <div class="card shadow p-3 h-100 d-flex flex-column justify-content-between" style="height: 100%;">
+                <h5 class="text-primary text-center mb-2">Top 5 Best Selling Product</h5>
+                <canvas id="chartProduk" style="max-height: 200px;"></canvas>
+                <ul id="topProductsList" class="list-unstyled small mt-3 text-center"></ul>
+            </div>
+        </div>
     </div>
 
-    <!-- Diagram Pendapatan per Bulan -->
-    <div class="chart-container mt-4">
-        <h5 class="text-primary">Income</h5>
-        <canvas id="chartPendapatan"></canvas>
-    </div>
-</div>
+    <!-- Monthly Charts -->
+    <div class="mt-4">
+        <!-- Monthly Income -->
+        <div class="card shadow p-4 mb-4">
+            <h5 class="text-primary text-center mb-3">Monthly Income</h5>
+            <canvas id="chartPendapatan" style="height: 350px; max-height: 350px;"></canvas>
+        </div>
 
+        <!-- Monthly Expense -->
+        <div class="card shadow p-4 mb-4">
+            <h5 class="text-danger text-center mb-3">Monthly Expense</h5>
+            <canvas id="chartPengeluaran" style="height: 350px; max-height: 350px;"></canvas>
+        </div>
+
+        <!-- Monthly Profit -->
+        <div class="card shadow p-4">
+            <h5 class="text-success text-center mb-3">Monthly Profit</h5>
+            <canvas id="chartProfit" style="height: 350px; max-height: 350px;"></canvas>
+        </div>
+    </div>
+
+
+    
 <!-- Spacer -->
 <div style="height: 20px;"></div>
 
@@ -190,29 +192,125 @@
     setInterval(updateDateTime, 1000);
     updateDateTime(); // initial call to display the time immediately
 
-    var ctx = document.getElementById('chartPendapatan').getContext('2d');
-    var chartPendapatan = new Chart(ctx, {
-        type: 'bar',
+    // Pie Chart Top 5 Best Selling Product
+    var produkSeringDibeli = @json($produkSeringDibeli);
+    var labels = produkSeringDibeli.map(item => item.product ? item.product.name : 'Unknown');
+    var data = produkSeringDibeli.map(item => item.total_qty);
+
+    var ctx = document.getElementById("chartProduk").getContext("2d");
+    new Chart(ctx, {
+        type: 'pie',
         data: {
-            labels: [
-                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-            ],
+            labels: labels,
             datasets: [{
-                label: 'Income',
-                data: {!! json_encode(array_values($dataPendapatan)) !!},
-                backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                borderColor: 'rgba(54, 162, 235, 1)',
+                data: data,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#9C27B0'],
+                hoverOffset: 5
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false // Ini menyembunyikan legenda bawaan
+                }
+            }
+        }
+    });
+
+
+    // Tampilkan daftar Top 5 Products di bawah Pie Chart
+    var productColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#9C27B0'];
+    var totalQtyBulanIni = produkSeringDibeli.reduce((sum, item) => sum + item.total_qty, 0);
+    var productList = document.getElementById("topProductsList");
+
+    produkSeringDibeli.forEach((item, index) => {
+        var productName = item.product ? item.product.name : 'Unknown';
+        var percentage = ((item.total_qty / totalQtyBulanIni) * 100).toFixed(2);
+        var li = document.createElement("li");
+
+        li.innerHTML = `
+            <span class="legend-color" style="background-color:${productColors[index]}"></span>
+            <span>${productName}</span>
+            <span class="ms-auto">${item.total_qty} pcs</span>
+        `;
+        productList.appendChild(li);
+    });
+
+    // Chart Monthly Income
+    var dataPendapatan = @json(array_values($dataPendapatan));
+    var ctxBar = document.getElementById("chartPendapatan").getContext("2d");
+    new Chart(ctxBar, {
+        type: "bar",
+        data: {
+            labels: ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
+            datasets: [{
+                label: "Income",
+                data: dataPendapatan,
+                backgroundColor: "rgba(54, 162, 235, 0.5)",
+                borderColor: "rgba(54, 162, 235, 1)",
                 borderWidth: 1
             }]
         },
         options: {
             responsive: true,
             scales: {
-                y: { beginAtZero: true }
+                y: {
+                    beginAtZero: true
+                }
             }
         }
     });
+
+    // Chart Pengeluaran Setiap Bulan
+    var dataPengeluaran = @json(array_values($dataPengeluaran));
+    var ctxBarExpense = document.getElementById("chartPengeluaran").getContext("2d");
+    new Chart(ctxBarExpense, {
+        type: "bar",
+        data: {
+            labels: ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
+            datasets: [{
+                label: "Expense",
+                data: dataPengeluaran,
+                backgroundColor: "rgba(255, 99, 132, 0.5)",   // Merah lembut
+                borderColor: "rgba(255, 99, 132, 1)",
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Chart Monthly Profit
+    var dataProfit = @json(array_values($dataProfit));
+    var ctxProfit = document.getElementById("chartProfit").getContext("2d");
+    new Chart(ctxProfit, {
+        type: "bar",
+        data: {
+            labels: ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
+            datasets: [{
+                label: "Profit",
+                data: dataProfit,
+                backgroundColor: "rgba(40, 167, 69, 0.5)",
+                borderColor: "rgba(40, 167, 69, 1)",
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
 </script>
 
 

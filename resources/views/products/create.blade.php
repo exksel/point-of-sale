@@ -1,8 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Add Product')
 @section('content')
-<!-- Bootstrap CSS & SB Admin Styles -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
     body {
@@ -16,8 +14,6 @@
         margin-right: 5px;
     }
 </style>
-</head>
-<body>
 
 <div class="container mt-4">
     <div class="card shadow">
@@ -25,26 +21,34 @@
             <h6 class="m-0 font-weight-bold text-primary">Add Product</h6>
         </div>
         <div class="card-body">
-            <form action="{{ route('products.store') }}" method="POST">
+            <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <label class="form-label">Name</label>
                     <input type="text" class="form-control" name="name" required>
                 </div>
                 <div class="mb-3">
+                    <label class="form-label">Image</label>
+                    <input type="file" class="form-control" name="image" accept="image/*">
+                </div>
+                <div class="mb-3">
                     <label class="form-label">Description</label>
                     <textarea class="form-control" name="description" required></textarea>
                 </div>
                 <div class="mb-3">
+                    <label class="form-label">Stock</label>
+                    <input type="number" class="form-control" name="stock" required min="0"
+                    inputmode="numeric" pattern="[0-9]*"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                </div>                
+                <div class="mb-3">
                     <label class="form-label">Price</label>
                     <input type="number" class="form-control" name="price" required oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
                 </div>
-                <button type="submit" class="btn btn-success btn-sm">Save</button>
+                <button type="submit" class="btn btn-success btn-sm">Submit</button>
                 <a href="{{ route('products.index') }}" class="btn btn-secondary btn-sm">Cancel</a>
             </form>
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 @endsection

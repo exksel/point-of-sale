@@ -2,6 +2,7 @@
 <html>
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> <!-- Link untuk Bootstrap Icons -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
@@ -26,8 +27,8 @@
         width: 100%;
         height: 100%;
         background: 
-        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-        url('{{ asset("images/home.jpg") }}');
+        linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+        url('{{ asset("images/login.jpg") }}');
         background-position: center;
         background-size: cover;
     }
@@ -73,8 +74,8 @@
         font-size: 16px;
         color: #fff;
     }
-        .input-field input:focus~label,
-        .input-field input:valid~label {
+    .input-field input:focus~label,
+    .input-field input:valid~label {
         font-size: 0.8rem;
         top: 10px;
         transform: translateY(-120%);
@@ -115,7 +116,7 @@
         border: 2px solid transparent;
         transition: 0.3s ease;
     }
-        button:hover {
+    button:hover {
         color: #fff;
         border-color: #fff;
         background: rgba(255, 255, 255, 0.15);
@@ -130,6 +131,14 @@
         text-align: center;
         margin-top: 30px;
         color: #fff;
+    }
+    .show-password {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        color: #fff;
+        cursor: pointer;
     }
 </style>
 </head>
@@ -146,8 +155,11 @@
           <label>Enter your username</label>
         </div>
         <div class="input-field">
-          <input type="password" name="password" required>
+          <input type="password" name="password" id="passwordInput" required>
           <label>Enter your password</label>
+          <span class="show-password" id="togglePassword" onclick="togglePassword()">
+            <i class="bi bi-eye"></i> <!-- Icon untuk show password -->
+          </span>
         </div>
         <button type="submit">Log In</button>
         <button class="back-home" onclick="window.location.href='{{ route('home') }}'">Back to Home</button>
@@ -156,5 +168,21 @@
         </div>
       </form>
     </div>
-  </body>
+
+    <script>
+      function togglePassword() {
+        const passwordInput = document.getElementById("passwordInput");
+        const toggleIcon = document.getElementById("togglePassword").children[0];
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          toggleIcon.classList.remove("bi-eye");
+          toggleIcon.classList.add("bi-eye-slash"); // Ganti ikon saat password terlihat
+        } else {
+          passwordInput.type = "password";
+          toggleIcon.classList.remove("bi-eye-slash");
+          toggleIcon.classList.add("bi-eye"); // Ganti ikon saat password disembunyikan
+        }
+      }
+    </script>
+</body>
 </html>

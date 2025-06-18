@@ -3,118 +3,88 @@
 @section('title', 'Home')
 
 @section('content')
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
-  <style>
-      body, html {
-          margin: 0;
-          padding: 0;
-          width: 100%;
-          height: 100%;
-          font-family: 'Roboto', sans-serif;
-      }
-      .container {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 50px;
-          background: url('{{ asset("images/home.jpg") }}') no-repeat center center/cover;
-          color: white;
-          height: 100vh;
-          box-sizing: border-box;
-          position: relative;
-          overflow: hidden;
-      }
-      .container::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.6);
-          z-index: 1;
-      }
-      .text-content, .image-content {
-          position: relative;
-          z-index: 2;
-      }
-      .text-content {
-          max-width: 50%;
-          animation: fadeInLeft 1s ease-in-out;
-      }
-      .text-content h1 {
-          font-size: 52px;
-          margin: 0 0 20px 0;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 2px;
-      }
-      .text-content p {
-          font-size: 20px;
-          margin-bottom: 20px;
-          line-height: 1.6;
-      }
-      .btn {
-          background: linear-gradient(45deg, #FFA500, #FF4500);
-          color: white;
-          padding: 15px 30px;
-          text-decoration: none;
-          font-size: 18px;
-          border-radius: 30px;
-          font-weight: bold;
-          transition: all 0.3s ease-in-out;
-          display: inline-block;
-          box-shadow: 0 4px 10px rgba(255, 69, 0, 0.5);
-      }
-      .btn:hover {
-          transform: scale(1.1);
-          background: linear-gradient(45deg, #FF4500, #FFA500);
-      }
-      .image-content {
-          animation: fadeInRight 1s ease-in-out;
-      }
-      .image-content img {
-          max-width: 100%;
-          height: auto;
-          border-radius: 50%;
-          transition: transform 0.3s ease-in-out;
-      }
-      .image-content img:hover {
-          transform: scale(1.05);
-      }
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Montserrat", sans-serif;
+        }
 
-      /* Animations */
-      @keyframes fadeInLeft {
-          from {
-              opacity: 0;
-              transform: translateX(-50px);
-          }
-          to {
-              opacity: 1;
-              transform: translateX(0);
-          }
-      }
-      @keyframes fadeInRight {
-          from {
-              opacity: 0;
-              transform: translateX(50px);
-          }
-          to {
-              opacity: 1;
-              transform: translateX(0);
-          }
-      }
-  </style>
+        .gradient-text {
+            background: linear-gradient(180deg, #7dbbaf 0%, #a3d1c9 50%, #7dbbaf 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            position: relative;
+        }
 
-  <div class="container">
-      <div class="text-content">
-          <h1>Enjoy Our Delicious Beverages</h1>
-          <p>Temukan sensasi kesegaran yang tak terlupakan dengan minuman pilihan terbaik kami.</p>
-          <a class="btn" href="{{ route('menu') }}">OUR MENU</a>
-      </div>
-      <div class="image-content">
-          <img alt="Ice Tea" src="{{ asset('images/icetea.png') }}" width="800"/>
-      </div>
-  </div>
+        .gradient-subtext {
+            background: linear-gradient(90deg, #1f4a4a 0%, #3a7a7a 50%, #1f4a4a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .leaf-icon {
+            position: absolute;
+            z-index: 50;
+            width: 90px;
+            height: auto;
+            opacity: 0.9;
+        }
+
+        @media (min-width: 768px) {
+            .leaf-icon {
+                width: 110px;
+            }
+        }
+    </style>
+
+    <div class="relative min-h-screen flex flex-col items-center justify-center text-center"
+        style="background: linear-gradient(180deg, #d3c9be 0%, #f3d3b3 100%)">
+        
+        
+        <main class="w-full flex-1 flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 mt-24"
+            style="max-width: 1200px; margin: 0 auto;">
+            
+            <div class="w-full flex justify-center relative">
+                {{-- Gambar Es Teh DI BELAKANG TULISAN --}}
+                <img src="{{ asset('images/es teh.png') }}" alt="Es Teh"
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] max-w-[90vw] opacity-70 z-0 pointer-events-none select-none" />
+
+                {{-- Leaf at top-right of the title --}}
+                <img src="{{ asset('images/leaf.png') }}" alt="Leaf Top Right"
+                    class="leaf-icon right-[-5px] top-[-10px] rotate-[15deg]">
+
+                {{-- Leaf at bottom-left of the title --}}
+                <img src="{{ asset('images/leaf.png') }}" alt="Leaf Bottom Left"
+                    class="leaf-icon left-[-40px] bottom-[-50px] rotate-[-160deg]">
+
+                <h1 aria-label="Title"
+                    class="gradient-text text-[8rem] sm:text-[10rem] md:text-[11rem] lg:text-[12rem] xl:text-[13rem] font-extrabold leading-[0.9] select-none text-center"
+                    style="font-feature-settings: 'liga' off">
+                    Rooted in Freshness
+                </h1>
+            </div>
+
+            <div
+                class="mt-12 flex flex-wrap justify-center gap-3 gradient-subtext text-xs sm:text-sm font-semibold tracking-widest select-none text-center">
+                <span>HOME BREWED</span>
+                <span>·</span>
+                <span>AUTHENTIC TASTE</span>
+                <span>·</span>
+                <span>100% FRESH</span>
+            </div>
+
+            <div class="flex justify-center">
+                <a href="{{ route('menu') }}" aria-label="Discover"
+                    class="mt-16 inline-flex items-center justify-center px-8 py-3 border border-[#1f4a4a] text-[#1f4a4a] text-sm font-semibold tracking-widest rounded-full hover:scale-105 transition-transform duration-300"
+                    style="font-feature-settings: 'liga' off; text-decoration: none;">
+                    EXPLORE MENU
+                </a>
+            </div>
+        </main>
+    </div>
 @endsection

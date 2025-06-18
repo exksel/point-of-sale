@@ -6,12 +6,12 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="{{ route('user.profile') }}" class="{{ Request::is('user.profile') ? 'active' : '' }}">Edit Profile</a></li>
+                <li><a class="dropdown-item" href="{{ route('user.profile') }}" class="{{ Request::is('user.profile') ? 'active' : '' }}"><i class="bi bi-pencil-square"></i> Edit Profile</a></li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="dropdown-item">Logout</button>
+                        <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Logout</button>
                     </form>
                 </li>                
             </ul>

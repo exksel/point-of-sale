@@ -58,17 +58,17 @@
 
                 <div class="mb-3">
                     <label for="full_name" class="form-label">Full Name</label>
-                    <input type="text" class="form-control" id="full_name" name="full_name" value="{{ old('full_name', $user->full_name) }}" required>
+                    <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Input your full name" value="{{ old('full_name', $user->full_name) }}" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="phone_number" class="form-label">Phone Number</label>
-                    <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}" required>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Input your number" value="{{ old('phone_number', $user->phone_number) }}" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" value="{{ old('username', $user->username) }}" required>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Input your username" value="{{ old('username', $user->username) }}" required>
                 </div>            
 
                 <div class="mb-3">
@@ -94,6 +94,29 @@
         let originalPhoneNumber = "{{ $user->phone_number }}";
         let originalUsername = "{{ $user->username }}";
 
+        // Validasi kosong
+        if (fullName === "") {
+            Swal.fire({
+                title: "Peringatan!",
+                text: "Full name tidak boleh kosong.",
+                icon: "warning",
+                confirmButtonColor: "#d33",
+                confirmButtonText: "OK"
+            });
+            return;
+        }
+
+        if (phoneNumber === "") {
+            Swal.fire({
+                title: "Peringatan!",
+                text: "Phone number tidak boleh kosong.",
+                icon: "warning",
+                confirmButtonColor: "#d33",
+                confirmButtonText: "OK"
+            });
+            return;
+        }
+
         // Cek jika tidak ada perubahan data
         if (
             fullName === originalFullName &&
@@ -102,7 +125,7 @@
             password === ""
             ) {
             Swal.fire({
-                title: "Gagal!",
+                title: "Failed!",
                 text: "Tidak ada perubahan yang dilakukan.",
                 icon: "error",
                 confirmButtonColor: "#d33",

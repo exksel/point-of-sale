@@ -10,4 +10,9 @@ class PageController extends Controller
     {
         return view('landing.home');
     }
+
+    public function aboutus()
+    {
+        return view('landing.aboutus');
+    }
 }

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
+use App\Models\Expense;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -28,7 +29,7 @@ class DashboardController extends Controller
 
         // Pendapatan per hari
         $totalPemasukanPerHari = Transaction::whereDate('transaction_date', Carbon::today())
-        ->sum('total');
+            ->sum('total');
 
         // Produk yang sering dibeli (Top 5)
         $produkSeringDibeli = TransactionDetail::selectRaw('product_id, SUM(quantity) as total_qty')
@@ -52,10 +53,38 @@ class DashboardController extends Controller
         foreach ($pendapatanPerBulan as $data) {
             $dataPendapatan[$data->bulan] = $data->total_pendapatan;
         }
+        
+        $totalPengeluaranPerBulan = Expense::whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->sum('expense_total');
+
+        // Profit
+        $totalProfitPerBulan = $totalPemasukanPerBulan - $totalPengeluaranPerBulan;
+
+        // Chart Pengeluaran Per Bulan
+        $pengeluaranPerBulan = Expense::selectRaw('MONTH(created_at) as bulan, SUM(expense_total) as total_pengeluaran')
+            ->whereYear('created_at', Carbon::now()->year)
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get();
+
+        $dataPengeluaran = array_fill(1, 12, 0);
+        foreach ($pengeluaranPerBulan as $data) {
+            $dataPengeluaran[$data->bulan] = $data->total_pengeluaran;
+        }
+
+        // Chart profit per bulan
+        $dataProfit = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $dataProfit[$i] = $dataPendapatan[$i] - $dataPengeluaran[$i];
+        }
+
 
         return view('dashboard', compact(
             'jumlahProduk', 'jumlahTransaksi', 'totalPemasukanPerHari',
-            'totalPemasukanPerBulan', 'produkSeringDibeli', 'dataPendapatan'
+            'totalPemasukanPerBulan', 'produkSeringDibeli', 'dataPendapatan', 'totalPengeluaranPerBulan', 
+            'totalProfitPerBulan', 'dataPengeluaran', 'dataProfit'
+
         ));
     }
 }

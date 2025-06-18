@@ -4,12 +4,6 @@
 
 @section('content')
 
-<!-- Bootstrap CSS & Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- DataTables CSS & JS -->
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"></script>
 
 <style>
     body {
@@ -38,9 +32,7 @@
         <div class="card-header py-3">
             <div class="header-container">
                 <h6 class="m-0 font-weight-bold text-primary">Transaction List</h6>
-                <a href="{{ url('/transactions/export-excel') }}" class="btn btn-success btn-sm">
-                    <i class="bi bi-file-earmark-excel"></i> Export Excel
-                </a>                
+                <a href="{{ route('transactions.export') }}" class="btn btn-success btn-sm"><i class="bi bi-file-earmark-spreadsheet"></i> Export</a>                
             </div>
         </div>
         <div class="card-body">
@@ -48,10 +40,12 @@
                 <table class="table table-bordered" id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th>Transaction Code</th>
+                            <th>Code</th>
+                            <th>Cust Email</th>
                             <th>Price Total</th>
                             <th>Paid</th>
                             <th>Change</th>
+                            <th>Payment Type</th>
                             <th>Date&Time</th>
                             <th>Action</th>
                         </tr>
@@ -60,9 +54,11 @@
                         @foreach ($transactions as $transaction)
                         <tr>
                             <td>{{ $transaction->transaction_code }}</td>
+                            <td>{{ $transaction->email }}</td>
                             <td>Rp {{ number_format($transaction->total, 0, ',', '.') }}</td>
                             <td>Rp {{ number_format($transaction->paid, 0, ',', '.') }}</td>
                             <td>Rp {{ number_format($transaction->change, 0, ',', '.') }}</td>
+                            <td>{{ ucfirst($transaction->payment_type) }}</td>
                             <td>{{ \Carbon\Carbon::parse($transaction->transaction_date)->format('d-m-Y H:i') }}</td>
                             <td>
                                 <a href="{{ route('transaction.show', $transaction->transaction_code) }}" class="btn btn-primary btn-sm">

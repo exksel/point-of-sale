@@ -44,6 +44,7 @@
         justify-content: space-between;
         margin-bottom: 2px;
     }
+    
     .receipt-footer p {
         margin: 3px 0;
     }
@@ -81,9 +82,9 @@
     <div id="receipt" class="receipt">
         <div class="receipt-header">
             <p>===================================</p>
-            <p><strong>Es Teh Poci</strong></p>
-            <p>Jln. Pahlawan No. 1</p>
-            <p>Telp. 081234567890</p>
+            <p><strong>EsTeh Desa</strong></p>
+            <p>Ds. Nguntoronadi, Magetan</p>
+            <p> {{ Auth::user()->phone_number ?? '' }} </p>
             <p>===================================</p>
         </div>
         <div class="receipt-section">
@@ -92,8 +93,12 @@
                 <span>: {{ $transaction->transaction_code }}</span>
             </div>
             <div>
+                <span>Cust Email</span>
+                <span>: {{ $transaction->email }}</span>
+            </div>
+            <div>
                 <span>Cashier</span>
-                <span>: {{ Auth::user()->full_name ?? 'Guest' }}</span>
+                <span>: {{ $transaction->cashier_name }}</span>
             </div>
             <div>
                 <span>Date&Time</span>
@@ -128,6 +133,10 @@
             <div>
                 <span><strong>Change</strong></span>
                 <span>: Rp {{ number_format($transaction->change, 0, ',', '.') }}</span>
+            </div>
+            <div>
+                <span><strong>Payment Type</strong></span>
+                <span>: {{ ucfirst($transaction->payment_type) }}</span>
             </div>
         </div>
         <hr>

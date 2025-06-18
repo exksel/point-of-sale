@@ -13,9 +13,12 @@ return new class extends Migration {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('transaction_code')->unique(); // Kode transaksi (TR001, TR002, dst)
+            $table->string('email')->nullable();
+            $table->string('cashier_name'); // Nama lengkap user yang login
             $table->integer('total'); // Total harga dalam integer
             $table->integer('paid'); // Nominal bayar
             $table->integer('change'); // Kembalian
+            $table->string('payment_type');
             $table->timestamp('transaction_date')->useCurrent(); // Waktu transaksi
             $table->timestamps();
         });

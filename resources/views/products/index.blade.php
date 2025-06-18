@@ -4,16 +4,6 @@
 
 @section('content')
 
-<!-- Bootstrap CSS & SB Admin Styles -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- Bootstrap JS & DataTables -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
 
 <style>
     body {
@@ -35,6 +25,13 @@
             justify-content: space-between;
             align-items: center;
         }
+    /* Ukuran gambar kecil */
+    .product-img {
+            width: 50px;  /* Sesuaikan ukuran */
+            height: 50px; /* Sesuaikan ukuran */
+            object-fit: cover; /* Agar gambar tetap rapi */
+            border-radius: 5px; /* Opsional: buat gambar sedikit melengkung */
+        }
 </style>
 
 <div class="container mt-4">
@@ -42,7 +39,11 @@
         <div class="card-header py-3">
             <div class="header-container">
                 <h6 class="m-0 font-weight-bold text-primary">Product List</h6>
-                <a href="{{ route('products.create') }}" class="btn btn-success btn-sm">Add Product</a>
+                <div class="d-flex justify-content-between">
+                    <a href="{{ route('products.create') }}" class="btn btn-primary btn-sm"><i class="bi bi-boxes"></i> Add Product</a>
+                    <a href="{{ route('products.import') }}" class="btn btn-success btn-sm"><i class="bi bi-box-arrow-up"></i> Import</a>
+                    <a href="{{ route('products.export') }}" class="btn btn-success btn-sm"><i class="bi bi-file-earmark-excel"></i> Export</a>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -52,7 +53,9 @@
                         <tr>
                             <th>No</th>
                             <th>Name</th>
+                            <th>Image</th>
                             <th>Description</th>
+                            <th>Stock</th>
                             <th>Price</th>
                             <th>Actions</th>
                         </tr>
@@ -62,11 +65,26 @@
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $product->name }}</td>
+                            <td>
+                                @if ($product->image)
+                                    <img src="{{ asset($product->image) }}" class="product-img" alt="Product Image">
+                                @else
+                                    <span class="text-muted"><i class="bi bi-image"></i> Image</span>
+                                @endif
+                            </td>
                             <td>{{ $product->description }}</td>
+                            <td>{{ $product->stock ?? 0 }}</td>
                             <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
                             <td>
-                                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
-                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $product->id }})"><i class="bi bi-trash"></i></button>
+                                <div class="d-flex gap-2">
+                                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $product->id }})">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+
                                 <form id="delete-form-{{ $product->id }}" action="{{ route('products.destroy', $product->id) }}" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
@@ -93,6 +111,23 @@
         });
     }
 });
+
+// Search
+    document.getElementById("searchInput").addEventListener("keyup", function () {
+                let filter = this.value.toLowerCase();
+                let rows = document.querySelectorAll("#productTable tbody tr");
+
+                rows.forEach(row => {
+                    let productName = row.cells[0].textContent.toLowerCase(); // Nama produk
+                    let productPrice = row.cells[1].textContent.toLowerCase().replace(/[^\d]/g, ''); // Harga produk tanpa karakter non-angka
+
+                    if (productName.includes(filter) || productPrice.includes(filter)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            });
 
     
 //sweet alert delete

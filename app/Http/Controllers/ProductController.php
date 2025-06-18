@@ -19,7 +19,7 @@ class ProductController extends Controller
     // menampilkan menu di landing
     public function menu()
     {
-        $products = Product::orderBy('id', 'asc')->take(12)->get(); // Ambil 12 produk
+        $products = Product::orderBy('id', 'asc')->get(); // Ambil produk
         return view('landing.menu', compact('products')); // Tampilkan di menu.blade.php
     }
 
@@ -40,12 +40,25 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
+            'stock' => 'required|integer|min:0',
             'price' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
 
-        Product::create($request->all());
-        return redirect()->route('products.index')->with('success','Product created successfully.');
+        $data = $request->all();
+
+        // Jika ada file gambar yang diupload
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('uploads'), $imageName);
+            $data['image'] = 'uploads/' . $imageName;
+        }
+
+        Product::create($data);
+
+        return redirect()->route('products.index')->with('success', 'Product berhasil dibuat!.');
     }
+
 
     /**
      * Display the specified resource.
@@ -71,13 +84,30 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
+            'stock' => 'required|integer|min:0',
             'price' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
-  
-        $product->update($request->all());
-  
-        return redirect()->route('products.index')->with('success','Product updated successfully');
+
+        $data = $request->all();
+
+        // Jika ada file gambar baru
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            if ($product->image && file_exists(public_path($product->image))) {
+                unlink(public_path($product->image));
+            }
+
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('uploads'), $imageName);
+            $data['image'] = 'uploads/' . $imageName;
+        }
+
+        $product->update($data);
+
+        return redirect()->route('products.index')->with('success', 'Product berhasil diupdate!');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -86,6 +116,6 @@ class ProductController extends Controller
     {
         $product->delete();
   
-        return redirect()->route('products.index')->with('success','Product deleted successfully');
+        return redirect()->route('products.index')->with('success','Product berhasil dihapus!');
     }
 }

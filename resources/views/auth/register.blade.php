@@ -27,7 +27,7 @@
         height: 100%;
         background: 
         linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-        url('{{ asset("images/home.jpg") }}');
+        url('{{ asset("images/login.jpg") }}');
         background-position: center;
         background-size: cover;
     }
