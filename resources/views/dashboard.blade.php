@@ -107,11 +107,11 @@
             <div class="row g-3 h-100">
                 @foreach ([
                     ['icon' => 'bi-box', 'title' => 'Products', 'value' => $jumlahProduk, 'subtitle' => 'Total'],
-                    ['icon' => 'bi-cart-check', 'title' => 'Transaction', 'value' => $jumlahTransaksi, 'subtitle' => 'Total'],
+                    ['icon' => 'bi-cart-check', 'title' => 'Transaction Records', 'value' => $jumlahTransaksi, 'subtitle' => 'Total'],
+                    ['icon' => 'bi bi-bag-dash', 'title' => 'Expense Records', 'value' => $jumlahRecordExpense, 'subtitle' => 'Total'],
                     ['icon' => 'bi-coin', 'title' => 'Income', 'value' => 'Rp ' . number_format($totalPemasukanPerHari, 0, ',', '.'), 'subtitle' => 'Today'],
-                    ['icon' => 'bi-cash-coin', 'title' => 'Income', 'value' => 'Rp ' . number_format($totalPemasukanPerBulan, 0, ',', '.'), 'subtitle' => 'This Month'],
-                    ['icon' => 'bi-cart-dash', 'title' => 'Expense', 'value' => 'Rp ' . number_format($totalPengeluaranPerBulan, 0, ',', '.'), 'subtitle' => 'This Month'],
-                    ['icon' => 'bi-currency-exchange', 'title' => 'Profit', 'value' => 'Rp ' . number_format($totalProfitPerBulan, 0, ',', '.'), 'subtitle' => 'This Month'],
+                    ['icon' => 'bi-cart-dash', 'title' => 'Expense', 'value' => 'Rp ' . number_format($totalPengeluaranPerHari, 0, ',', '.'), 'subtitle' => 'Today'],
+                    ['icon' => 'bi bi-cash-coin', 'title' => 'Profit', 'value' => 'Rp ' . number_format($totalProfitPerHari, 0, ',', '.'), 'subtitle' => 'Today'],
                 ] as $item)
                     <div class="col-md-4">
                         <div class="card card-custom p-3 h-100">

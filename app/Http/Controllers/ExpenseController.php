@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Expense;
 use App\Exports\ExpensesExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 
 class ExpenseController extends Controller
 {
@@ -38,6 +40,7 @@ class ExpenseController extends Controller
             // Simpan data expense
             Expense::create([
                 'expense_id' => $newExpenseID,
+                'user_full_name' => Auth::user()->full_name,
                 'expense_name' => $request->expense_name,
                 'quantity' => $request->quantity,
                 'expense_total' => $request->expense_total,
@@ -58,6 +61,24 @@ class ExpenseController extends Controller
     {
         return view('outcomes.export2');
     }
+
+    public function preview(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $request->start_date)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $request->end_date)->endOfDay();
+
+        $expenses = Expense::whereBetween('expense_date', [$startDate, $endDate])
+            ->orderBy('expense_date', 'asc')
+            ->get();
+
+        return view('outcomes.preview2', compact('expenses', 'startDate', 'endDate'));
+    }
+
 
     public function export(Request $request)
     {

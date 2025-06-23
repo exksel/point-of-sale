@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('expenses', function (Blueprint $table) {
             $table->id(); // Auto-increment primary key
             $table->string('expense_id')->unique(); // Bukan primary, tapi tetap unik
+            $table->string('user_full_name'); // Menyimpan nama lengkap user
             $table->string('expense_name');
             $table->integer('quantity');
             $table->integer('expense_total');

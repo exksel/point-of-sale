@@ -72,8 +72,8 @@ class ProductSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Es Coklat',
-                'description' => 'Minuman coklat yang creamy dan manis dengan rasa pekat yang memanjakan lidah.',
+                'name' => 'Es Teh Coklat',
+                'description' => 'Minuman teh coklat yang creamy dan manis dengan rasa pekat yang memanjakan lidah.',
                 'stock' => 100,
                 'price' => 5000,
                 'created_at' => Carbon::now(),
@@ -96,8 +96,8 @@ class ProductSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Es Susu',
-                'description' => 'Kesegaran susu murni yang creamy dan lembut, memberikan kenikmatan klasik di setiap tegukan.',
+                'name' => 'Es Teh Susu',
+                'description' => 'Kesegaran teh dengan susu murni yang creamy dan lembut, memberikan kenikmatan klasik di setiap tegukan.',
                 'stock' => 100,
                 'price' => 5000,
                 'created_at' => Carbon::now(),

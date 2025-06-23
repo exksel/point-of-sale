@@ -65,7 +65,26 @@
             font-size: 13px;
         }
     }
-    
+    @media (max-width: 768px) {
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .card {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .col-md-6 {
+        width: 100%;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
+
 </style>
 
 <div class="container mt-4">

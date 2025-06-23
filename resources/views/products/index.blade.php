@@ -24,14 +24,28 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
+    }
     /* Ukuran gambar kecil */
     .product-img {
             width: 50px;  /* Sesuaikan ukuran */
             height: 50px; /* Sesuaikan ukuran */
             object-fit: cover; /* Agar gambar tetap rapi */
             border-radius: 5px; /* Opsional: buat gambar sedikit melengkung */
+    }
+    
+    @media (max-width: 768px) {
+        body {
+            overflow-x: auto;
         }
+
+        .container {
+            min-width: 1200px; /* Atur sesuai lebar konten aslinya */
+        }
+
+        html {
+            overflow-x: auto;
+        }
+    }
 </style>
 
 <div class="container mt-4">

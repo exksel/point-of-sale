@@ -25,6 +25,19 @@
         justify-content: space-between;
         align-items: center;
     }
+    @media (max-width: 768px) {
+        body {
+            overflow-x: auto;
+        }
+
+        .container {
+            min-width: 1200px; /* Atur sesuai lebar konten aslinya */
+        }
+
+        html {
+            overflow-x: auto;
+        }
+    }
 </style>
 
 <div class="container mt-4">
@@ -35,7 +48,7 @@
                 <div class="d-flex justify-content-between">
                     <a href="{{ route('outcomes.addexpense') }}" class="btn btn-primary btn-sm">Add Expense</a>
                     <a href="{{ route('outcomes.export2.form') }}" class="btn btn-success btn-sm">
-                        <i class="bi bi-file-earmark-excel"></i> Export Excel
+                        <i class="bi bi-file-earmark-spreadsheet"></i> Export
                     </a>
                 </div>
             </div>

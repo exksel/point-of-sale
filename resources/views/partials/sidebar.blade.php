@@ -15,7 +15,7 @@
                 </a>
                 <div class="sb-sidenav-menu-heading">Transaction</div>
                 <a class="nav-link {{ request()->routeIs('transactions.cashier') ? 'active' : '' }}" href="{{ route('transactions.cashier') }}">
-                    <div class="sb-nav-link-icon"><i class="bi bi-bag"></i></div>
+                    <div class="sb-nav-link-icon"><i class="bi bi-pc-display-horizontal"></i></div>
                     Cashier
                 </a>
                 <a class="nav-link {{ request()->routeIs('transactions.history') ? 'active' : '' }}" href="{{ route('transactions.history') }}">

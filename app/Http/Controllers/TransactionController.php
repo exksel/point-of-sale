@@ -119,6 +119,25 @@ class TransactionController extends Controller
         return view('transactions.export');
     }
 
+    public function preview(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $request->start_date)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $request->end_date)->endOfDay();
+
+        $transactions = Transaction::with('details.product')
+            ->whereBetween('transaction_date', [$startDate, $endDate])
+            ->orderBy('transaction_date', 'asc')
+            ->get();
+
+        return view('transactions.preview', compact('transactions', 'startDate', 'endDate'));
+    }
+
+
     public function export(Request $request)
     {
         $request->validate([

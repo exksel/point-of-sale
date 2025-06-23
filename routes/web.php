@@ -65,25 +65,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/transactions/history', [TransactionController::class, 'history'])->name('transactions.history');
     Route::get('/transaction/{transaction_code}', [TransactionController::class, 'show'])->name('transaction.show');
     Route::get('/transactions/export', [TransactionController::class, 'showExportForm'])->name('transactions.export.form');
+    Route::post('/transactions/export/preview', [TransactionController::class, 'preview'])->name('transactions.export.preview');
     Route::post('/transactions/export', [TransactionController::class, 'export'])->name('transactions.export');
-    Route::get('/transactions/export-excel/{month}/{year}', function ($month, $year) {
-        return Excel::download(new TransactionsExport($month, $year), "transactions_{$month}_{$year}.xlsx");
-    })->where([
-        'month' => '[0-9]+',
-        'year' => '[0-9]+'
-    ])->name('transactions.export.excel');
     
     Route::get('/expenses', [ExpenseController::class, 'index'])->name('outcomes.list');
     Route::get('/expenses/create', [ExpenseController::class, 'create'])->name('outcomes.addexpense');
     Route::post('/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
     Route::get('/expenses/export', [ExpenseController::class, 'showExportForm'])->name('outcomes.export2.form');
+    Route::post('/expenses/preview', [ExpenseController::class, 'preview'])->name('outcomes.preview2');
     Route::post('/expenses/export', [ExpenseController::class, 'export'])->name('outcomes.export2');
-    Route::get('/expenses/export-excel/{month}/{year}', function ($month, $year) {
-        return Excel::download(new ExpensesExport($month, $year), "expenses_{$month}_{$year}.xlsx");
-    })->where([
-        'month' => '[0-9]+',
-        'year' => '[0-9]+'
-    ])->name('expense.export.excel');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('user.profile');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');

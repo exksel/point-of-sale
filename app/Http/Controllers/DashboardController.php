@@ -22,10 +22,7 @@ class DashboardController extends Controller
             ->whereYear('transaction_date', Carbon::now()->year)
             ->count();
 
-        // Total pemasukan bulan ini
-        $totalPemasukanPerBulan = Transaction::whereMonth('transaction_date', Carbon::now()->month)
-            ->whereYear('transaction_date', Carbon::now()->year)
-            ->sum('total');
+
 
         // Pendapatan per hari
         $totalPemasukanPerHari = Transaction::whereDate('transaction_date', Carbon::today())
@@ -54,13 +51,21 @@ class DashboardController extends Controller
             $dataPendapatan[$data->bulan] = $data->total_pendapatan;
         }
         
+        // Menghitung expense record
+        $jumlahRecordExpense = Expense::count();
+
+        // Total pengeluaran hari ini
+        $totalPengeluaranPerHari = Expense::whereDate('created_at', Carbon::today())
+            ->sum('expense_total');
+
+        // Pengeluaran per bulan
         $totalPengeluaranPerBulan = Expense::whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', Carbon::now()->year)
             ->sum('expense_total');
 
-        // Profit
-        $totalProfitPerBulan = $totalPemasukanPerBulan - $totalPengeluaranPerBulan;
-
+        // Profit hari ini
+        $totalProfitPerHari = $totalPemasukanPerHari - $totalPengeluaranPerHari;
+            
         // Chart Pengeluaran Per Bulan
         $pengeluaranPerBulan = Expense::selectRaw('MONTH(created_at) as bulan, SUM(expense_total) as total_pengeluaran')
             ->whereYear('created_at', Carbon::now()->year)
@@ -82,8 +87,8 @@ class DashboardController extends Controller
 
         return view('dashboard', compact(
             'jumlahProduk', 'jumlahTransaksi', 'totalPemasukanPerHari',
-            'totalPemasukanPerBulan', 'produkSeringDibeli', 'dataPendapatan', 'totalPengeluaranPerBulan', 
-            'totalProfitPerBulan', 'dataPengeluaran', 'dataProfit'
+            'produkSeringDibeli', 'dataPendapatan', 'totalPengeluaranPerBulan', 
+            'dataPengeluaran', 'dataProfit', 'totalPengeluaranPerHari', 'totalProfitPerHari', 'jumlahRecordExpense'
 
         ));
     }

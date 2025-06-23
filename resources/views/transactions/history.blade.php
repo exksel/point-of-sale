@@ -25,6 +25,19 @@
     .btn-sm {
         margin-right: 5px;
     }
+    @media (max-width: 768px) {
+        body {
+            overflow-x: auto;
+        }
+
+        .container {
+            min-width: 1200px; /* Atur sesuai lebar konten aslinya */
+        }
+
+        html {
+            overflow-x: auto;
+        }
+    }
 </style>
 
 <div class="container mt-4">
